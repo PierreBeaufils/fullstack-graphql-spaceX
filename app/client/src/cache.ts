@@ -1,4 +1,4 @@
-import { InMemoryCache, Reference } from '@apollo/client';
+import { InMemoryCache, Reference, makeVar } from '@apollo/client';
 
 /*
 Apollo Client stores your query results in its in-memory cache, initialized by:
@@ -26,8 +26,33 @@ export const cache: InMemoryCache = new InMemoryCache({
                 launches,
               };
             }
+          },
+          cartItems: {
+            read() {
+              return cartItemsVar();
+            }
+          },
+          isLoggedIn: {
+            read() {
+              return isLoggedInVar();
+            }
           }
         }
       }
     }
   });
+
+// Initializes to true if localStorage includes a 'token' key,
+// false otherwise
+export const isLoggedInVar = makeVar<boolean>(!!localStorage.getItem('token'));
+
+// Initializes to an empty array
+export const cartItemsVar = makeVar<string[]>([]);
+
+/*
+If you call a reactive variable function with zero arguments (e.g., isLoggedInVar()),
+it returns the variable's current value.
+
+If you call the function with one argument (e.g., isLoggedInVar(false)),
+it replaces the variable's current value with the provided value.
+*/
