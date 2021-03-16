@@ -17,7 +17,10 @@ import {
   
   injectStyles();
   
-  // Pass the ApolloClient instance to the ApolloProvider component
+  /* Pass the ApolloClient instance to the ApolloProvider component.
+  It wrapq our app in the ApolloProvider component from the @apollo/client package
+  wraps the React app and places client on the context, which enables to access it from anywhere in your component tree.
+  */
   ReactDOM.render(
     <ApolloProvider client={client}>
       <Pages />
